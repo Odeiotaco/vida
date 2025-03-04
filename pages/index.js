@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Head from "next/head";
 
-// Exemplo de página Next.js com tema pixelado, sprites animados, contagem de tempo e cenários animados.
-// Lembre-se de fornecer suas próprias imagens de sprite (fat-cat-sprite.png e small-cat-sprite.png) ou links.
-// Este código é apenas um exemplo e usa classes inline e placeholders.
+// Versão melhorada: Fundo pixelado (visível), sprites animados com GIFs, estrelas e janelas maiores.
+// Assim deve ficar mais fácil de ver!
 
 export default function PixelatedCats() {
   // Data alvo: 18/09/2024
@@ -65,11 +64,10 @@ export default function PixelatedCats() {
     );
   };
 
-  // Gatos (sprites). Substitua pelas URLs dos seus sprites animados.
-  // Se quiser sprite sheet com múltiplos frames, use as classes CSS no <div> em vez do <img>.
-  // Aqui, vou usar placeholders.
-  const fatCatSprite = "/fat-cat-sprite.png"; // troque pela sua sprite
-  const smallCatSprite = "/small-cat-sprite.png"; // troque pela sua sprite
+  // Exemplo de GIFs pixelados para os gatos (links para giphy)
+  // Você pode trocar pelos seus próprios.
+  const fatCatSprite = "https://media.giphy.com/media/xTiTnJJrco2f1Pfjjm/giphy.gif"; // Gato laranja pixelado
+  const smallCatSprite = "https://media.giphy.com/media/3o7btT1T2s6fP3BSik/giphy.gif"; // Gato pequeno pixelado
 
   // Contadores de cliques
   const [fatCatClicks, setFatCatClicks] = useState(0);
@@ -83,12 +81,12 @@ export default function PixelatedCats() {
     setSmallCatClicks((prev) => prev + 1);
   };
 
-  // Array para estrelas piscando
-  const starCount = 30;
+  // Array para estrelas piscando (agora maiores)
+  const starCount = 25;
   const stars = Array.from({ length: starCount }, (_, i) => i);
 
-  // Array para janelinhas piscando
-  const buildingCount = 15;
+  // Array para janelinhas piscando (agora maiores e mais visíveis)
+  const buildingCount = 12;
   const buildings = Array.from({ length: buildingCount }, (_, i) => i);
 
   return (
@@ -99,7 +97,15 @@ export default function PixelatedCats() {
 
       <div
         className="relative w-full min-h-screen flex flex-col items-center justify-center"
-        style={{ backgroundColor: "#000", overflow: "hidden", imageRendering: "pixelated" }}
+        style={{
+          backgroundColor: "#001026", // Azul-escuro
+          backgroundImage:
+            "url('https://i.ibb.co/3yvLm7C/stars-pixel-bg.png')", // Um fundo pixelado
+          backgroundRepeat: "repeat",
+          backgroundSize: "cover",
+          overflow: "hidden",
+          imageRendering: "pixelated",
+        }}
       >
         {/* Estrelas piscando no fundo */}
         {stars.map((star) => {
@@ -107,6 +113,7 @@ export default function PixelatedCats() {
           const randomY = Math.random() * 100;
           const randomDelay = Math.random() * 2;
           const randomDuration = 1 + Math.random() * 1.5;
+          const size = 4 + Math.random() * 3; // 4 a 7px
           return (
             <motion.div
               key={"star-" + star}
@@ -114,8 +121,8 @@ export default function PixelatedCats() {
               style={{
                 left: `${randomX}%`,
                 top: `${randomY}%`,
-                width: "2px",
-                height: "2px",
+                width: `${size}px`,
+                height: `${size}px`,
                 imageRendering: "pixelated",
               }}
               initial={{ opacity: 0 }}
@@ -133,22 +140,23 @@ export default function PixelatedCats() {
         {/* Janelinhas piscando (prédios pixelados) */}
         {buildings.map((light) => {
           const randomX = Math.random() * 100;
-          const randomY = 70 + Math.random() * 20; // Entre 70% e 90% da tela
+          const randomY = 60 + Math.random() * 30; // Entre 60% e 90% da tela
           const randomDelay = Math.random() * 2;
-          const randomDuration = 0.5 + Math.random() * 1.5;
+          const randomDuration = 0.8 + Math.random() * 1.2;
+          const size = 12;
           return (
             <motion.div
               key={"building-" + light}
-              className="absolute bg-yellow-300"
+              className="absolute bg-yellow-200"
               style={{
                 left: `${randomX}%`,
                 top: `${randomY}%`,
-                width: "6px",
-                height: "6px",
+                width: `${size}px`,
+                height: `${size}px`,
                 imageRendering: "pixelated",
               }}
               initial={{ opacity: 0 }}
-              animate={{ opacity: [1, 0.2, 1] }}
+              animate={{ opacity: [1, 0.4, 1] }}
               transition={{
                 delay: randomDelay,
                 duration: randomDuration,
@@ -161,7 +169,7 @@ export default function PixelatedCats() {
 
         {/* Título */}
         <motion.h1
-          className="font-mono text-2xl mb-4 mt-8"
+          className="font-mono text-3xl mb-4 mt-8"
           style={{
             color: "#fff",
             textShadow: "2px 2px #ff0080",
@@ -186,7 +194,7 @@ export default function PixelatedCats() {
         </motion.div>
 
         {/* Gatos animados (Sprites) */}
-        <div className="mt-8 w-full max-w-[350px] flex items-center justify-around">
+        <div className="mt-8 w-full max-w-[400px] flex items-center justify-around">
           {/* Gato Laranja Gordinho */}
           <motion.div
             onClick={handleFatCatClick}
@@ -194,14 +202,13 @@ export default function PixelatedCats() {
             className="flex flex-col items-center cursor-pointer"
             style={{ imageRendering: "pixelated" }}
           >
-            {/* Exemplo de sprite, substitua pela sua sprite sheet se quiser animação por frames */}
             <img
               src={fatCatSprite}
               alt="Gato Laranja Gordinho Pixel"
-              className="w-20 h-20 mb-2"
+              className="w-24 h-24 mb-2"
               style={{ objectFit: "cover", imageRendering: "pixelated" }}
             />
-            <p className="text-pink-300 font-mono text-xs">Cliques: {fatCatClicks}</p>
+            <p className="text-pink-300 font-mono text-sm">Cliques: {fatCatClicks}</p>
           </motion.div>
 
           {/* Gato Branco e Cinza */}
@@ -214,16 +221,16 @@ export default function PixelatedCats() {
             <img
               src={smallCatSprite}
               alt="Gato Branco e Cinza Pixel"
-              className="w-20 h-20 mb-2"
+              className="w-24 h-24 mb-2"
               style={{ objectFit: "cover", imageRendering: "pixelated" }}
             />
-            <p className="text-pink-300 font-mono text-xs">Cliques: {smallCatClicks}</p>
+            <p className="text-pink-300 font-mono text-sm">Cliques: {smallCatClicks}</p>
           </motion.div>
         </div>
 
         {/* Mensagem final */}
         <motion.p
-          className="mt-6 text-sm text-pink-200 font-mono"
+          className="mt-6 text-base text-pink-200 font-mono"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1 }}
